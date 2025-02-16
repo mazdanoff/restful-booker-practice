@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 
 
 @dataclass
@@ -9,8 +8,8 @@ class CreateBookingResponse:
     lastname: str
     totalprice: int
     depositpaid: bool
-    checkin: datetime
-    checkout: datetime
+    checkin: str
+    checkout: str
     additionalneeds: str
 
     @classmethod
@@ -21,7 +20,7 @@ class CreateBookingResponse:
             lastname=data["booking"]["lastname"],
             totalprice=data["booking"]["totalprice"],
             depositpaid=data["booking"]["depositpaid"],
-            checkin=datetime.strptime(data["booking"]["checkin"], "%Y-%M-%D"),
-            checkout=datetime.strptime(data["booking"]["checkout"], "%Y-%M-%D"),
+            checkin=data["booking"]["bookingdates"]["checkin"],
+            checkout=data["booking"]["bookingdates"]["checkout"],
             additionalneeds=data["booking"]["additionalneeds"],
         )

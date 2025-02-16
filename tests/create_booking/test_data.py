@@ -10,7 +10,7 @@ PROPER = {
     "additionalneeds": "Yellow rubber duck"
 }
 
-EMPTY_FIRSTNAME = {
+EMPTY_NAME = {
     "firstname": "",
     "lastname": "",
     "totalprice": 111,
