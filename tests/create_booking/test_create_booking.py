@@ -17,7 +17,9 @@ test_data = {
 
 def test_create_booking_status_code():
     """Sanity test to check the CreateBooking endpoint. Sends a proper request and expects 200."""
-    response = post(CREATE_BOOKING_URL, data=test_data["application/json"])
+    # NOTE: Documentation says application/json is default.
+    # I assume this means headers are optional and will be handled by the API.
+    response = post(CREATE_BOOKING_URL, data=test_data["application/json"])  # no headers, responds with 500
     assert_that(response.status_code, equal_to(200),
                 f"Received {response.status_code} instead of 200")
 
