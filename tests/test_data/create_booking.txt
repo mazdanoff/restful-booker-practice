@@ -1,0 +1,1 @@
+firstname=Romuald&lastname=Mean&totalprice=111&depositpaid=True&bookingdates%5Bcheckin%5D=2020-03-12&bookingdates%5Bcheckout%5D=2020-03-25&bookingdates%255Bcheckinbetween%255D%5Ba%5D=1&bookingdates%255Bcheckinbetween%255D%5Bb%5D=2&bookingdates%255Bcheckinbetween%255D%5Bc%5D=3&additionalneeds=Yellow rubber duck

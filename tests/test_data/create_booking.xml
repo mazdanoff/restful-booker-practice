@@ -1,0 +1,11 @@
+<booking>
+    <firstname>Romuald</firstname>
+    <lastname>Mean</lastname>
+    <totalprice>111</totalprice>
+    <depositpaid>true</depositpaid>
+    <bookingdates>
+        <checkin>2020-03-12</checkin>
+        <checkout>2020-03-25</checkout>
+    </bookingdates>
+    <additionalneeds>Yellow rubber duck</additionalneeds>
+</booking>
