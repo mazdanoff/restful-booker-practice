@@ -16,6 +16,7 @@ test_data = {
 }
 
 def test_create_booking_status_code():
+    """Sanity test to check the CreateBooking endpoint. Sends a proper request and expects 200."""
     response = post(CREATE_BOOKING_URL, data=test_data["application/json"])
     assert_that(response.status_code, equal_to(200),
                 f"Received {response.status_code} instead of 200")
@@ -25,6 +26,18 @@ def test_create_booking_status_code():
 @pytest.mark.parametrize("accept",
             ["application/json", "application/xml"])
 def test_create_booking_contenttype_accept(content_type, accept):
+    """
+    Parametrized test that exhausts all combinations of known content types that the API can handle.
+    Tested features:
+    - API handling of different content types the client declared they sent (Content-Type header)
+    - API handling of different content types the client defined they want to receive (Accept header)
+    """
+    # CANDIDATE NOTE
+    #     API documentation says content type can be application/json or text/xml,
+    #     but I figured application/x-www-form-urlencoded works just as well
+    # NOTE
+    #     accept: application/xml tests will fail, as service declares it's responding with text/html,
+    #     although the response content seems to be xml-parsable <- ! which should be tested separately !
     headers = {'Content-Type': content_type, 'Accept': accept}
     data = test_data[content_type]
 
@@ -33,20 +46,32 @@ def test_create_booking_contenttype_accept(content_type, accept):
                 f"Expected '{accept}', but received '{response.headers['Content-Type']}'")
 
 def test_create_booking_empty_name_request():
+    """
+    First name and last name values passed here are simply empty strings.
+    While their type is correct, the values are not necessarily (unless the booking service allows anonymous booking...)
+    """
     response = post(CREATE_BOOKING_URL, json=EMPTY_NAME)
     assert_that(response.status_code, equal_to(400),
                 f"Received {response.status_code} instead of 400")
-    # Service takes in empty values for names
-    # incognito mode!
 
 def test_create_booking_wrong_value_type_request():
+    """
+    We check/verify how API handles mismatched value types in request body.
+    The totalprice value should be an int, but we are passing it on as a string.
+    A '$111' instead of 111 is a reasonable mistake one can make.
+    """
     response = post(CREATE_BOOKING_URL, json=WRONG_VALUE_TYPE)
     assert_that(response.status_code, equal_to(400),
                 f"Received {response.status_code} instead of 400")
     # sent totalprice value as a string, a null was returned in its place
-    # free booking!
+    # free booking, whoo!
 
 def test_create_booking_checkin_after_checkout_request():
+    """
+    Check-in and check-out dates are formatted correctly, but it doesn't make sense
+    for check-in to happen AFTER we declare checking out within the same booking reservation.
+    It's a logical error and should also be verified if API can handle this.
+    """
     response = post(CREATE_BOOKING_URL, json=CHECKIN_AFTER_CHECKOUT)
     assert_that(response.status_code, equal_to(400),
                 f"Received {response.status_code} instead of 400")
@@ -54,6 +79,9 @@ def test_create_booking_checkin_after_checkout_request():
     # time travel!
 
 def test_create_booking_subsequent_requests_have_different_ids():
+    """
+    Kind of a sanity test that checks if booking IDs are different for different requests.
+    """
     response1 = post(CREATE_BOOKING_URL, json=PROPER)
     response1 = CreateBookingResponse.from_dict(json.loads(response1.text))
     response2 = post(CREATE_BOOKING_URL, json=PROPER)
