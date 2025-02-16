@@ -25,3 +25,4 @@ Everything should be set up to run tests:
 - (tests) checking types of fields from received content (i.e. if API responded with a `null` instead of `int`)
 - (misc) logging attached to requests and responses, to analyze flow and not having to run debug mode in IDE
 - (misc) reporting: `pytest-html`, `allure` (if one isn't allergic to Java)
+- (misc) linters, to be run on CI (such as GitHub)
