@@ -1,7 +1,7 @@
 import json
 from urllib.parse import quote
 
-from tests.test_create_booking import test_data_json
+from conf.paths import test_data_json
 
 
 def data_to_url(data: dict, prefix='', wrapper='{}'):
